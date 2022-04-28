@@ -1,9 +1,11 @@
 const rowCount = 50;
 const colCount = 50;
-const odds = 0.3;
-const honesty = 0.99;
+const odds = 0;
+const honesty = 1;
 const fr = 32;
 const framesPerUpdate = 4;
+const gridSize = 50;
+
 
 var running = false;
 var board;
@@ -17,7 +19,8 @@ function setup() {
   frameRate(fr);
   noStroke();
   canvas = createCanvas(windowWidth, windowHeight);
-  board = makeBoard();
+  makeBoard();
+
   lastBoard = board;
   canvas.position(0, 0);
   canvas.style('z-index', '-1');
@@ -26,7 +29,7 @@ function setup() {
 }
 
 function draw() {
-  updateLife()
+  updateLife();
 }
 
 function mousePressed() {
@@ -39,6 +42,56 @@ function windowResized() {
 }
 
 function makeBoard() {
+  const N = [[true, false, false, false, true],
+  [true, true, false, false, true],
+  [true, false, true, false, true],
+  [true, false, false, true, true],
+  [true, false, false, false, true]];
+  const A = [[false, true, true, false],
+  [true, false, false, true],
+  [true, true, true, true],
+  [true, false, false, true],
+  [true, false, false, true]];
+  const O = [[false, true, false],
+  [true, false, true],
+  [true, false, true],
+  [true, false, true],
+  [false, true, false]];
+  const M = [[true, false, false, false, true],
+  [true, true, false, true, true],
+  [true, false, true, false, true],
+  [true, false, false, false, true],
+  [true, false, false, false, true]];
+  const I = [[true, true, true],
+  [false, true, false],
+  [false, true, false],
+  [false, true, false],
+  [true, true, true]];
+  const B = [[true, true, true, false],
+  [true, false, false, true],
+  [true, true, true, false],
+  [true, false, false, true],
+  [true, true, true, false]];
+  const U = [[true, false, false,true],
+  [true, false, false,true],
+  [true, false, false,true],
+  [true, false, false,true],
+  [false, true, true, false]];
+  const R = [[true, true, true, false],
+  [true, false, false, true],
+  [true, true, true, false],
+  [true, false, false, true],
+  [true, false, false, true]];
+  const K = [[true, false, false, true],
+  [true, false, true, false],
+  [true, true, false, false],
+  [true, false, true, false],
+  [true, false, false, true]]
+  const S = [[true, true, true, true],
+  [true, false, false, false],
+  [true, true, true, true],
+  [false, false, false, true],
+  [true, true, true, true]];
 
   var row;
   var data = [];
@@ -49,7 +102,17 @@ function makeBoard() {
     }
     data.push(row);
   }
-  return data;
+  board = data;
+  insert(N, 1, 1);
+  insert(A, 1, 7);
+  insert(O, 1, 12);
+  insert(M, 1, 16);
+  insert(I, 1, 22);
+  insert(B, 10, 1);
+  insert(U, 10, 6);
+  insert(R, 10, 11);
+  insert(K, 10, 16);
+  insert(S, 10, 21);
 }
 
 function showBoard(lastBoard, board, frac) {
@@ -64,7 +127,7 @@ function showBoard(lastBoard, board, frac) {
       } else {
         fill(221 - 20*frac, 241 - 20*frac, 251);
       }
-      square(80*i - 40, 80*j - 40, 78, 25);
+      square(gridSize*j - gridSize / 2, gridSize*i - gridSize / 2, gridSize - 2, 10);
     }
   }
 
@@ -170,6 +233,16 @@ function updateLife() {
     lastBoard = board;
     if (running) {
     board = makeUpdated(board);
+    }
+  }
+}
+
+function insert(pattern, row, col) {
+  pr = pattern.length
+  pc = pattern[0].length
+  for (i=0; i<pr; i++) {
+    for (j=0; j<pc; j++) {
+      board[i + row][j + col] = pattern[i][j]
     }
   }
 }
