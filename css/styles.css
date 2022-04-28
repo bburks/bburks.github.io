@@ -1,0 +1,19 @@
+@keyframes rty {
+  0% {background-color: red;}
+  50% {background-color: yellow;}
+  100% {background-color: red}
+}
+
+@keyframes ytr {
+  from {background-color: yellow;}
+  to {background-color: red;}
+}
+
+.throbber {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  animation-name: rty;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+}
