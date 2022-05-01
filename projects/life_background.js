@@ -1,13 +1,17 @@
-const rowCount = 50;
+const rowCount = 30;
 const colCount = 50;
+const visibleW = 25;
+const visibleH = 15;
+
+
 const odds = 0;
 const honesty = 1;
 const fr = 32;
-const framesPerUpdate = 4;
-const gridSize = 50;
+const framesPerUpdate = 32;
 
 
-var running = false;
+var gridSize;
+var running = true;
 var board;
 var lastBoard;
 var keepGoing = true;
@@ -19,8 +23,9 @@ function setup() {
   frameRate(fr);
   noStroke();
   canvas = createCanvas(windowWidth, windowHeight);
-  makeBoard();
-
+  gridSize = Math.min(
+  Math.floor(windowWidth / visibleW), Math.floor(windowHeight/visibleH));
+  board = makeBoard();
   lastBoard = board;
   canvas.position(0, 0);
   canvas.style('z-index', '-1');
@@ -30,10 +35,6 @@ function setup() {
 
 function draw() {
   updateLife();
-}
-
-function mousePressed() {
-  running = !running;
 }
 
 function windowResized() {
@@ -102,32 +103,33 @@ function makeBoard() {
     }
     data.push(row);
   }
-  board = data;
-  insert(N, 1, 1);
-  insert(A, 1, 7);
-  insert(O, 1, 12);
-  insert(M, 1, 16);
-  insert(I, 1, 22);
-  insert(B, 10, 1);
-  insert(U, 10, 6);
-  insert(R, 10, 11);
-  insert(K, 10, 16);
-  insert(S, 10, 21);
+  insert(N, 3, 1, data);
+  insert(A, 3, 7, data);
+  insert(O, 3, 12, data);
+  insert(M, 3, 16, data);
+  insert(I, 3, 22, data);
+  insert(B, 10, 1, data);
+  insert(U, 10, 6, data);
+  insert(R, 10, 11, data);
+  insert(K, 10, 16, data);
+  insert(S, 10, 21, data);
+  return data;
 }
 
 function showBoard(lastBoard, board, frac) {
   for (i=0; i<rowCount; i++) {
     for (j=0; j<colCount; j++) {
       if (board[i][j] && lastBoard[i][j]) {
-        fill(201, 221, 251);
+        fill(221, 221, 251);
       } else if (!board[i][j] && !lastBoard[i][j]){
         fill(221, 241, 251);
       } else if (!board[i][j] && lastBoard[i][j]){
-        fill(201 + 20*frac, 221 + 20*frac, 251);
+        fill(221, 221 + 20*frac, 251);
       } else {
-        fill(221 - 20*frac, 241 - 20*frac, 251);
+        fill(221, 241 - 20*frac, 251);
       }
-      square(gridSize*j - gridSize / 2, gridSize*i - gridSize / 2, gridSize - 2, 10);
+      square(gridSize*j - gridSize / 2, gridSize*i - gridSize / 2,
+      gridSize - 2, Math.floor(gridSize * 0.3));
     }
   }
 
@@ -226,7 +228,7 @@ function limitToOne(i) {
 }
 
 function updateLife() {
-  showBoard(lastBoard, board, limitToOne(frameCounter / framesPerUpdate));
+  showBoard(lastBoard, board, limitToOne(2 * frameCounter / framesPerUpdate));
   frameCounter += 1;
   if (frameCounter == framesPerUpdate) {
     frameCounter = 0.0;
@@ -237,12 +239,12 @@ function updateLife() {
   }
 }
 
-function insert(pattern, row, col) {
+function insert(pattern, row, col, myBoard) {
   pr = pattern.length
   pc = pattern[0].length
   for (i=0; i<pr; i++) {
     for (j=0; j<pc; j++) {
-      board[i + row][j + col] = pattern[i][j]
+      myBoard[i + row][j + col] = pattern[i][j]
     }
   }
 }

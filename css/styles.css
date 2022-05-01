@@ -1,19 +1,72 @@
-@keyframes rty {
-  0% {background-color: red;}
-  50% {background-color: yellow;}
-  100% {background-color: red}
+* {
+  box-sizing: border-box;
+  font-family: 'Commissioner', Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
 
-@keyframes ytr {
-  from {background-color: yellow;}
-  to {background-color: red;}
+a:link {
+color: rgb(70, 70, 70);
+text-decoration: none;
+}
+a:visited {
+color: rgb(70, 70, 70);
+text-decoration: none; }
+a:hover {
+color: rgb(70, 70, 70);
+text-decoration: none; }
+a:active {
+color: rgb(70, 70, 70);
+text-decoration: none; }
+
+/* Style the top navigation bar */
+.nav {
+  overflow: hidden;
+  background-color: rgba(0, 0, 50, 0);
 }
 
-.throbber {
-  width: 100px;
-  height: 100px;
-  background-color: red;
-  animation-name: rty;
-  animation-duration: 4s;
-  animation-iteration-count: infinite;
+li {
+  text-decoration: none;
+}
+
+/* Style the topnav links */
+.nav li {
+  float: left;
+  /*display: block;
+  color: rgba(255, 0, 0, 1);*/
+  text-align: center;
+  padding: 14px 16px;
+
+  width: 25%
+}
+/*
+.center-break {
+  width: 60%
+}
+*/
+/* Change color on hover */
+.nav li:hover {
+  /*background-color: rgba(0, 0, 0, 0.1);*/
+  color: black;
+}
+
+h2 {
+  margin-top: 1%;
+}
+
+main {
+  margin-top: 10%;
+  margin-left: 13%;
+  margin-right: 13%;
+  font-size: xx-large;
+}
+
+footer {
+    position:fixed;
+    left:20px;
+    bottom:20px;
+    z-index:1;
+    right:20px;
+    text-align : right
 }
