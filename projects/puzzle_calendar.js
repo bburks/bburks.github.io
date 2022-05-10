@@ -22,8 +22,8 @@ var u = [[1, 1], [1, 0], [1, 1]];
 var y = [[1, 1, 1, 1], [0, 0, 1, 0]];
 var z = [[1, 0, 0], [1, 1, 1], [0, 0, 1]];
 var s = [[1, 0], [1, 1], [0, 1], [0, 1]];
-var box = [[1, 1], [1, 1], [1, 1]];
-var pieces = [p, l, v, u, y, z, s, box];
+var o = [[1, 1], [1, 1], [1, 1]];
+var pieces = [p, l, v, u, y, z, s, o];
 var pieceLocations = [[8, 5], [11, 0], [5, 4], [9, 2], [7, 0], [6, 0], [7, 2], [11, 4]];
 var activeP = -1;
 var mouseOffset = [0, 0];
@@ -340,7 +340,11 @@ for (let i = 0; i < pieces.length; i++) {
     for (let k = 0; k < row.length; k++) {
       if (row[k] == 1) {
         coveredSpot = [location[0] + k, location[1] + j];
-        if (coveredSpot[1] < gridStatusCopy.length && coveredSpot[0] < gridStatusCopy[coveredSpot[1]].length) {
+        if (
+        coveredSpot[1] < gridStatusCopy.length
+        && coveredSpot[1] >= 0
+        && coveredSpot[0] < gridStatusCopy[coveredSpot[1]].length
+        && coveredSpot[0] >= 0) {
           gridStatusCopy[coveredSpot[1]][coveredSpot[0]] = 'covered';
         }
       }
