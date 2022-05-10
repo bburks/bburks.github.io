@@ -258,6 +258,10 @@ function rotateP(i) {
       rotated[oldW - k - 1].push(exists);
     }
   }
+
+  mouseOffset = [mouseOffset[1], piece[0].length - 1 - mouseOffset[0]];
+
+
   pieces[i] = rotated;
 }
 
@@ -270,6 +274,7 @@ function flipP(i) {
     row = piece[j];
     row.reverse();
   }
+  mouseOffset[0] = pieces[activeP][0].length - mouseOffset[0] - 1;
 }
 
 function getP() {
