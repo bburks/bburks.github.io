@@ -29,22 +29,23 @@ var activeP = -1;
 var mouseOffset = [0, 0];
 var currentShowing = [];
 var solved;
+var started;
 var startTime;
 var finalDuration;
 //p5.js
 
 function setup() {
   colorMode(HSL, 100);
-  gridSquare = min(windowWidth / 16, windowHeight / 10);
+  gridSquare = min(windowWidth / 15, windowHeight / 9);
   gridOffsetX = (windowWidth - (13 * gridSquare)) / 2;
   gridOffsetY = (windowHeight - (7 * gridSquare)) / 2;
 
   frameRate(30);
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
+  started = false;
 
 
-  startTime = new Date();
 
 }
 
@@ -64,7 +65,10 @@ function mousePressed() {
   if (solved) {
     return;
   }
-
+  if (!started) {
+    started = true;
+    startTime = new Date();
+  }
 
   if (activeP != -1) {
     spot = subtract(integerize(canvasToGrid([mouseX, mouseY])), mouseOffset);

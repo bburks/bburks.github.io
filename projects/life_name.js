@@ -5,17 +5,18 @@ const visibleH = 15;
 
 
 const odds = 0;
-const honesty = 1;
+var honesty = 0.99;
 const fr = 64;
 const framesPerUpdate = 8;
 
 
 var gridSize;
-var running = false;
+var running = true;
 var board;
 var lastBoard;
 var keepGoing = true;
 var frameCounter = 0.0;
+var honestySlider;
 
 
 
@@ -31,19 +32,28 @@ function setup() {
   canvas.style('z-index', '-1');
   background(221, 241, 251);
   showBoard(lastBoard, board, 1)
+  makeSlider();
+
+
 }
 
 function draw() {
+  honesty = honestySlider.value();
+  background(221, 241, 251);
   updateLife();
+
+  logHonesty();
 }
 
 function mousePressed() {
-  running = !running;
+  //running = !running;
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   background(221, 241, 251);
+  honestySlider.remove();
+  makeSlider();
 }
 
 function makeBoard() {
@@ -107,6 +117,7 @@ function makeBoard() {
     }
     data.push(row);
   }
+  /*
   insert(N, 1, 1, data);
   insert(A, 1, 7, data);
   insert(O, 1, 12, data);
@@ -117,6 +128,7 @@ function makeBoard() {
   insert(R, 10, 11, data);
   insert(K, 10, 16, data);
   insert(S, 10, 21, data);
+  */
   return data;
 }
 
@@ -250,4 +262,20 @@ function insert(pattern, row, col, myBoard) {
       myBoard[i + row][j + col] = pattern[i][j]
     }
   }
+}
+
+function makeSlider() {
+honestySlider = createSlider(0.9, 1, 1, 0.002);
+honestySlider.position(windowWidth / 4, windowHeight - 50);
+honestySlider.style('width',  str(windowWidth / 2) + 'px');
+honestySlider.style('opacity', '70%');
+honestySlider.style('background', '#d3d3d3');
+
+}
+
+function logHonesty() {
+fill(0, 0, 0, 100);
+textSize(32);
+noStroke();
+text(str(Math.floor(honesty * 1000) / 10) + '% honest', 10, 10, windowWidth, 100);
 }

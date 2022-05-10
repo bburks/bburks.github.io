@@ -9,7 +9,7 @@
   <title>Naomi Burks</title>
 </head>
 
-<header>
+<header class = 'doodles'>
   <h1>
     <nav class = "nav">
       <ul>
@@ -17,20 +17,24 @@
         <li class = "nav"><a href = "projects.html">Projects</a></li>
         <li class = "nav"><a href = "doodles.html">Doodles</a></li>
         <li class = "nav"><a href = "resume.html">Resume</a></li>
-
       </ul>
     </nav>
-
-  <h1>
+  </h1>
 </header>
 
-<body>
+<body class = 'doodles'>
   <main>
-    <li><a href ="projects/life.html">Life</a></li>
-    <li><a href ="projects/puzzle_calendar.html">Puzzle Calendar</a></li>
+    <div class="p5_wrapper">
+      <div class = "title">What Day is Today?</div>
+      <iframe src="projects/puzzle_calendar.html"></iframe>
+    </div>
+
+
+    <div class="p5_wrapper">
+      <div class = "title">The Spontaneous Generation of Life</div>
+      <iframe src="projects/life.html"></iframe>
+    </div>
   </main>
-  <script src="p5.min.js"></script>
-  <script src="sketch.js"></script>
 </body>
 
 </html>
