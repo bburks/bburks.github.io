@@ -1,7 +1,5 @@
 
-var gridOffsetX = 0;
-var gridOffsetY = 0;
-var gridSquare = 50;
+
 const grid = [
 ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
 ['July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -12,8 +10,11 @@ const grid = [
 ['29', '30', '31']
 ];
 const gridCycle = [[0, 0], [6, 0], [6, 2], [7, 2], [7, 6], [3, 6], [3, 7], [0, 7]];
+const tw = todaysWinner();
 
-
+var gridSquare;
+var gridOffsetX;
+var gridOffsetY;
 var p = [[0, 1, 1], [1, 1, 1]];
 var l = [[1, 1], [0, 1], [0, 1], [0, 1]];
 var v = [[0, 0, 1], [0, 0, 1], [1, 1, 1]];
@@ -26,33 +27,53 @@ var pieces = [p, l, v, u, y, z, s, box];
 var pieceLocations = [[8, 5], [11, 0], [5, 4], [9, 2], [7, 0], [6, 0], [7, 2], [11, 4]];
 var activeP = -1;
 var mouseOffset = [0, 0];
-
+var currentShowing = [];
+var solved;
+var startTime;
+var finalDuration;
 //p5.js
 
 function setup() {
-  frameRate(30);
-  canvas = createCanvas(windowWidth, windowHeight);
-  gridSquare = min(windowWidth / 14, windowHeight / 8);
+  colorMode(HSL, 100);
+  gridSquare = min(windowWidth / 16, windowHeight / 10);
   gridOffsetX = (windowWidth - (13 * gridSquare)) / 2;
   gridOffsetY = (windowHeight - (7 * gridSquare)) / 2;
+
+  frameRate(30);
+  canvas = createCanvas(windowWidth, windowHeight);
   canvas.position(0, 0);
-  background(0, 0, 0);
-  showG();
-  showPs();
+
+
+  startTime = new Date();
+
 }
 
 function draw() {
-  background( 100 ,120, 120);
+  background(6, 77, 75);
+  showT();
   showG();
   showPs();
   showActiveP();
+
+
+
+
 }
 
 function mousePressed() {
+  if (solved) {
+    return;
+  }
+
+
   if (activeP != -1) {
     spot = subtract(integerize(canvasToGrid([mouseX, mouseY])), mouseOffset);
     pieceLocations[activeP] = spot;
     activeP = -1;
+    currentShowing = checkStatus();
+    if (currentShowing.length == 2 && currentShowing[0] == tw[0] && currentShowing[1] == tw[1]) {
+      solved = true;
+    }
 
   } else {
     var res = getP();
@@ -64,14 +85,11 @@ function mousePressed() {
 }
 
 function keyPressed() {
-  if (keyCode == 82) {
+  if (keyCode == 82 || keyCode == 32) {
     rotateP(activeP);
   }
-  if (keyCode == 70) {
+  if (keyCode == 70 || keyCode == 16) {
     flipP(activeP);
-  }
-  if (keyCode == 32) {
-    var x = checkStatus();
   }
 }
 
@@ -94,10 +112,10 @@ function showP(i) {
       if (row[k] == 1) {
         canvasLocation = gridToCanvas([location[0] + k, location[1] + j]);
         strokeWeight(0);
-        fill(100, 100, 144)
+        fill(15, 60, 75)
         square(canvasLocation[0], canvasLocation[1], gridSquare);
         stroke(0, 0, 0);
-        strokeWeight(3);
+        strokeWeight(2);
         if (j == 0 || piece[j - 1][k] == 0) {
           var topRight = gridToCanvas([location[0] + k + 1, location[1] + j]);
           line(canvasLocation[0], canvasLocation[1], topRight[0], topRight[1]);
@@ -137,6 +155,16 @@ function showPs() {
 
 function showG() {
 
+  var lastPoint = gridToCanvas([0, 7]);
+  var currentPoint;
+  for (let i = 0; i < gridCycle.length; i++) {
+    currentPoint = gridToCanvas(gridCycle[i]);
+    strokeWeight(4);
+    line(currentPoint[0], currentPoint[1], lastPoint[0], lastPoint[1]);
+    lastPoint = currentPoint;
+
+
+  }
 
   var row;
   var val;
@@ -149,31 +177,26 @@ function showG() {
       val = row[j];
       var topLeft = gridToCanvas([j, i]);
       var bottomRight = gridToCanvas([j + 1, i + 1]);
-      fill(90, 107, 178);
+      if (!solved) {
+      fill(0, 100, 100);
+      } else {
+      fill(75, 77, 75);
+      }
       strokeWeight(1);
       square(topLeft[0], topLeft[1], bottomRight[0] - topLeft[0]);
       fill(0, 0, 0);
       strokeWeight(0);
-      text(val, j * gridSquare + gridOffsetX, (i + 0.3) * gridSquare + gridOffsetY, gridSquare, gridSquare);
+      text(val, j * gridSquare + gridOffsetX, (i + 0.34) * gridSquare + gridOffsetY, gridSquare, gridSquare);
     }
   }
 
 
-  var lastPoint = gridToCanvas([0, 7]);
-  var currentPoint;
-  for (let i = 0; i < gridCycle.length; i++) {
-    currentPoint = gridToCanvas(gridCycle[i]);
-    strokeWeight(4);
-    line(currentPoint[0], currentPoint[1], lastPoint[0], lastPoint[1]);
-    lastPoint = currentPoint;
-
-
-  }
 
 }
 
+
 function showActiveP() {
-  fill(0, 0, 0, 75)
+  fill(15, 0, 0, 40)
   if (activeP != -1) {
     var location = subtract(integerize(canvasToGrid([mouseX, mouseY])), mouseOffset);
     var piece = pieces[activeP];
@@ -194,6 +217,19 @@ function showActiveP() {
       }
     }
   }
+
+function showT() {
+var loc = gridToCanvas([8,5]);
+if (!solved) {
+finalDuration = new Date();
+finalDuration = Math.floor((finalDuration - startTime) / 1000);
+}
+strokeWeight(0);
+fill(0, 0, 0);
+textSize(gridSquare);
+text(str(finalDuration),loc[0], loc[1], 8*gridSquare, gridSquare);
+
+}
 
 //piece movement
 
@@ -299,7 +335,7 @@ for (let i = 0; i < pieces.length; i++) {
     for (let k = 0; k < row.length; k++) {
       if (row[k] == 1) {
         coveredSpot = [location[0] + k, location[1] + j];
-        if (coveredSpot[1] < gridStatusCopy.length && coveredSpot[0] < gridStatusCopy[j].length) {
+        if (coveredSpot[1] < gridStatusCopy.length && coveredSpot[0] < gridStatusCopy[coveredSpot[1]].length) {
           gridStatusCopy[coveredSpot[1]][coveredSpot[0]] = 'covered';
         }
       }
@@ -324,6 +360,25 @@ return uncovered;
 
 function todaysWinner() {
   var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+  var dd = today.getDate() - 1;
+  var mm = today.getMonth();
+  var winner = [];
+  if (mm < 6) {
+    winner.push(grid[0][mm]);
+  } else {
+    winner.push(grid[1][mm - 6])
+  }
+  if (dd < 7) {
+    winner.push(grid[2][mm]);
+  } else if (dd < 14) {
+    winner.push(grid[3][dd - 7]);
+  } else if (mm < 21) {
+    winner.push(grid[4][dd - 14]);
+  } else if (mm < 28) {
+    winner.push(grid[5][dd - 21]);
+  } else {
+    winner.push(grid[6][dd - 28]);
+  }
+  return winner;
+
 }
