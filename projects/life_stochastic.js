@@ -5,9 +5,9 @@ const visibleH = 15;
 
 
 const odds = 0;
-var honesty = 0.99;
-const fr = 64;
-const framesPerUpdate = 8;
+var honesty;
+const fr = 24;
+const framesPerUpdate = 3;
 
 
 var gridSize;
@@ -17,7 +17,7 @@ var lastBoard;
 var keepGoing = true;
 var frameCounter = 0.0;
 var honestySlider;
-
+var started;
 
 
 function setup() {
@@ -33,7 +33,7 @@ function setup() {
   background(221, 241, 251);
   showBoard(lastBoard, board, 1)
   makeSlider();
-
+  noLoop();
 
 }
 
@@ -46,7 +46,10 @@ function draw() {
 }
 
 function mousePressed() {
-  //running = !running;
+  if (!started) {
+  started = true;
+  loop();
+  }
 }
 
 function windowResized() {
@@ -265,11 +268,11 @@ function insert(pattern, row, col, myBoard) {
 }
 
 function makeSlider() {
-honestySlider = createSlider(0.9, 1, 1, 0.002);
-honestySlider.position(windowWidth / 4, windowHeight - 50);
-honestySlider.style('width',  str(windowWidth / 2) + 'px');
-honestySlider.style('opacity', '70%');
-honestySlider.style('background', '#d3d3d3');
+honestySlider = createSlider(0.9, 1, 1, 0.001);
+honestySlider.position(windowWidth / 3, windowHeight - 50);
+honestySlider.style('width',  str(windowWidth / 3) + 'px');
+honestySlider.style('opacity', '50%');
+
 
 }
 
@@ -277,5 +280,5 @@ function logHonesty() {
 fill(0, 0, 0, 100);
 textSize(32);
 noStroke();
-text(str(Math.floor(honesty * 1000) / 10) + '% honest', 10, 10, windowWidth, 100);
+text('Spontaneity: ' + str(Math.floor(1000 - honesty * 1000) / 10) + '%', 10, 10, windowWidth, 100);
 }

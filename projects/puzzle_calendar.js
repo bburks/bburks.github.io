@@ -45,7 +45,7 @@ function setup() {
   canvas.position(0, 0);
   started = false;
 
-
+  noLoop();
 
 }
 
@@ -63,9 +63,11 @@ function draw() {
 
 function mousePressed() {
   if (solved) {
+    noLoop();
     return;
   }
   if (!started) {
+    loop();
     started = true;
     startTime = new Date();
   }

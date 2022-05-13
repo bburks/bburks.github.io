@@ -1,56 +1,132 @@
 <!DOCTYPE html>
 <html lang="">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/styles.css">
-  <link href='https://fonts.googleapis.com/css?family=Commissioner' rel='stylesheet'>
-  <title>Naomi Burks</title>
-  <script src="p5.min.js"></script>
-  <script src="sketch.js"></script>
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Commissioner' rel='stylesheet'>
+    <title>Naomi Burks</title>
+    <script src="p5.min.js"></script>
+    <script src="sketch.js"></script>
+  </head>
 
-<header>
-  <h1>
-    <nav class = "nav">
-      <ul>
-        <li class = "nav"><a href = "index.html">Welcome</a></li>
-        <li class = "nav"><a href = "projects.html">Projects</a></li>
-        <li class = "nav"><a href = "doodles.html">Doodles</a></li>
-        <li class = "nav"><a href = "resume.html">Resume</a></li>
-      </ul>
-    </nav>
-  <h1>
-</header>
+  <body class = 'resume'>
+    <header>
+      <h1>
+        <nav class = "navbar">
+          <ul>
+            <li><a href = "index.html">Home</a></li>
+            <li><a href = "doodles.html">Doodles</a></li>
+            <li><a href = "projects.html">Projects</a></li>
+            <li><a href = "resume.html">Resume</a></li>
+          </ul>
+        </nav>
+      </h1>
+    </header>
 
-<body>
-  <main>
-    <div class = 'skills resume-list'>
-      Skills
-      <ul>
-        <li class = 'skill'>Stochastic Modeling</li>
-        <li class = 'skill'>Data Analysis</li>
-        <li class = 'skill'>Data Visualization</li>
-        <li class = 'skill'>Python</li>
-        <li class = 'skill'>Java</li>
-        <li class = 'skill'>SQL</li>
-        <li class = 'skill'>LaTeX</li>
-        <li class = 'skill'>HTML, CSS, and JavaScript</li>
-        <li class = 'skill'>NumPy, SciPy, Pandas, and MatPlotLib</li>
-        <li class = 'skill'>MatLab</li>
-        <li class = 'skill'></li>
-        <li class = 'skill'></li>
-        <li class = 'skill'></li>
-      </ul>
-    </div>
-    <div class = 'experience resume-list'>
-      Experience
-      <li class = 'experience'></li>
-      <li class = 'experience'></li>
-      <li class = 'experience'></li>
-    </div>
-    <div class = 'education resume-list'></div>
-</body>
+    <main>
+      <div class = "row">
+        <div class = 'experience resume-list column'>
+          <div class = 'list-heading'>Work</div>
+          <div class = 'line-under'></div>
+          <ul>
+            <li>
+              <div type="button" class="collapsible">UMN Mathematical Biology Researcher (2021)</div>
+              <p class = "collapsed">
+                  I built a mathematical model to analyze colorectal cancer cell
+                  growth in CRC-on-Chip Microfluidic devices operated by the Mumenthaler Lab.
+                  I was advised by Jasmine Foo, working with her and Shannon Mumenthaler.
+                  <br>
+                  <br>
+                  On a technical level, I dug into multitype stochastic branching processes, implementing in
+                  Python and MatLab with a maximum likeliestimation algorithm to optimize parameters,
+                  allowing me to determine the cells' rates of birth, death, and phenotypic switching.
+                  <br>
+                  <br>
+                  I collaborated with the Mumenthaler Lab in designing experiments
+                  to ensure the data they collected was maximally informative
+                  and encapsulated the important biological aspects of their setup.
+              </p>
+            </li>
+            <li>
+              <div type="button" class="collapsible">UMN Mathematics Instructor (2019-2021)</div>
+              <p class = "collapsed">
+                I designed and taught courses in calculus 1, calculus 2, and
+                linear algebra for University of Minnesota Undergraduates.
+                <br><br>
+                As one of the first points of contact of students with the university, I also helped them
+                learn to navigate the university system.
+                <br><br>
+                Due to the wide range of studetn educational backgrounds, I
+                had to make sure everyone could learn and understand the
+                material while not leaving any students bored.
+                <br><br>
+                In my teaching philosophy, I place particular emphasis on
+                the fact that, due to our range of knowledge and interests,
+                aspects of mathematics that come quickly to some may be less
+                comprehensible to others, and vice versa.
+              </p>
+            </li>
+            <li>
+                <div type="button" class="collapsible">Competition Math Instructor (2015-2019)</div>
+                <p class = "collapsed">
+                  I have taught at IDEA MATH and Star League summer and winter math camps to help
+                  talented, highly motivated high school students succeed at mathematics competitions.
+                  <br><br>
+                  I prepared and presented materials in geometry and combonatorics,
+                  designed challenging quizzes, and provided stylistic feedback to hone their math presentation skills.
+                  In my presentations, I contextualized complex problem solving techniques so the students could
+                  more easily recognize when these methods could be applicable vs. when to try something different.
+                  <br><br>
+                  Many alumni of this program, including some of my students,
+                  have gone on to win national math competitions.
+                </p>
+              </li>
+          </ul>
+          <div class = 'list-heading'>Education</div>
+          <div class = 'line-under'></div>
+        </div>
+        <div class = 'skills resume-list column'>
+            <div class = 'list-heading'>Skills</div>
+            <div class = 'line-under'></div>
+            <table>
 
+              <tr>
+                <td>Stochastic Modeling</td>
+                <td>Data Science</td>
+                <td>Data Visualization</td>
+              </tr>
+              <tr>
+                <td>Python</td>
+                <td>Java</td>
+                <td>SQL</td>
+              </tr>
+              <tr>
+                <td>NumPy</td>
+                <td>SciPy</td>
+                <td>Pandas</td>
+              </tr>
+              <tr>
+                <td>HTML</td>
+                <td>CSS</td>
+                <td>JavaScript</td>
+              </tr>
+              <tr>
+                <td>LaTeX</td>
+                <td>MatLab</td>
+                <td>MatPlotLib</td>
+              </tr>
+            </table>
+
+          </div>
+      </div>
+    </main>
+
+    <footer>
+      <b>©2022 NAOMI BURKS</b>
+    </footer>
+  </body>
+
+  <script src="scripts/collapsible.js"></script>
 </html>
