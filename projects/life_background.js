@@ -27,7 +27,7 @@ function setup() {
   Math.floor(windowWidth / visibleW), Math.floor(windowHeight/visibleH));
   board = makeBoard();
   lastBoard = board;
-  canvas.position(0, 0);
+  canvas.position(0, 0, 'fixed');
   canvas.style('z-index', '-1');
   background(221, 241, 251);
   showBoard(lastBoard, board, 1)
