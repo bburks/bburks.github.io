@@ -6,8 +6,8 @@ const visibleH = 15;
 
 const odds = 0;
 const honesty = 1;
-const fr = 20;
-const framesPerUpdate = 40;
+const fr = 16;
+const framesPerUpdate = 32;
 
 
 var gridSize;
