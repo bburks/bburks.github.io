@@ -384,16 +384,17 @@ function todaysWinner() {
     winner.push(grid[1][mm - 6])
   }
   if (dd < 7) {
-    winner.push(grid[2][mm]);
+    winner.push(grid[2][dd]);
   } else if (dd < 14) {
     winner.push(grid[3][dd - 7]);
-  } else if (mm < 21) {
+  } else if (dd < 21) {
     winner.push(grid[4][dd - 14]);
-  } else if (mm < 28) {
+  } else if (dd < 28) {
     winner.push(grid[5][dd - 21]);
   } else {
     winner.push(grid[6][dd - 28]);
   }
+
   return winner;
 
 }
