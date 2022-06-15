@@ -1,0 +1,48 @@
+
+button {
+  font-size: 20px;
+}
+
+
+.label {
+  /*font-size: inherit;*/
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 2px;
+  border-color: rgb(0, 0, 0);
+  border: 1px solid;
+  /*margin: none;
+  padding: none;*/
+}
+
+.label:hover {
+  opacity: 1;
+}
+
+
+.changer {
+  background-color: rgb(220, 220, 250);
+  border-radius: 2px;
+  border: 1px solid;
+}
+
+.changer:hover {
+  background-color: rgba(200, 200, 220, 1);
+}
+
+.start {
+  background-color: rgba(200, 255, 200, 1);
+  border: 1px solid;
+}
+
+.start:hover {
+  background-color: rgba(185, 240, 185, 1);
+}
+
+.stop {
+  background-color: rgba(255, 200, 200, 1);
+  border: 1px solid;
+}
+
+.stop:hover {
+  background-color: rgba(240, 185, 185, 1);
+}
