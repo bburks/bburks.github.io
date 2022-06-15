@@ -163,8 +163,8 @@ class Viewer {
     +  String.fromCharCode(8320)
     + '. The black path is the result of one simulation, and the gray path '
     + 'is the theoretical average (mean) simulation. '
-    + 'Finally, in order to best display the graphs.'
-    + 'the vertical axis\' bounds depend on the parameter choice.',
+    + 'Finally, note '
+    + 'the vertical axis\' upper bound depends on parameter choice.',
     10, 20 + windowHeight * this.margin / 7,
     windowWidth - 200, windowHeight * this.margin);
 
