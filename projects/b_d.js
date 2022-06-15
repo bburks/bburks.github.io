@@ -160,14 +160,13 @@ class Viewer {
     text('Birth-death Process Visualizer', 10, 10,
     windowWidth - 20, windowHeight * this.margin / 7);
     textStyle(NORMAL);
-    text('This applet simulates a continuous-time linear birth-death branching '
-    + 'process n(t) running between times '
+    text('We simulate a continuous-time linear birth-death branching '
+    + 'process n(t) between times '
     + 't = 0 and t = 1. The birth rate is b, the death rate is d, and the '
     + 'initial population size is n'
     +  String.fromCharCode(8320)
-    + '. The red path is the result of one simulation, while the gray path '
-    + 'is the theoretical average '
-    + 'simulation of a birth-death process with the chosen parameters.',
+    + '. The red path is the result of the simulation, while the gray path '
+    + 'is the theoretical average simulation.',
     10, 20 + windowHeight * this.margin / 7,
     windowWidth - 200, windowHeight * this.margin);
 
