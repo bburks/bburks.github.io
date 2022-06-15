@@ -1,14 +1,17 @@
 var c;
-var starting_params = [1, 1, 10];
+var starting_params = [3, 2, 100];
+var first_loop = true;
 
 class Viewer {
   constructor(controller) {
     this.controller = controller;
-    this.margin = 0.2;
+    this.margin = 0.15;
+    this.axis_tail_length = this.margin * windowWidth / 3;
     this.button_width = 30;
     this.elements = [];
-    this.param_names = ['b', 'd', 'start'];
+    this.param_names = ['b', 'd', 'n' + String.fromCharCode(8320)];
     this.create_canvas();
+
 
   }
 
@@ -20,7 +23,14 @@ class Viewer {
 
   setup_canvas = () => {
 
+
     background(220, 220, 250);
+    strokeWeight(0);
+    fill(250, 220, 220);
+    rect(this.margin * windowWidth,
+    this.margin * windowHeight,
+    (1 - 2 * this.margin) * windowWidth,
+    (1 - 2 * this.margin) * windowHeight);
     this.show_axes();
   }
 
@@ -66,8 +76,28 @@ class Viewer {
   }
 
   line = (x1, y1, x2, y2) => {
+    if (y1 > this.ys && y2 > this.ys) {
+      return;
+    }
+
+    if (y1 > this.ys) {
+      var xspot = x1 + (x2 - x1) * (y1 - this.ys) / (y1 - y2);
+      line(this.scale_x(xspot), this.scale_y(this.ys), this.scale_x(x2),
+      this.scale_y(y2));
+      return;
+    }
+
+    if (y2 > this.ys) {
+      var xspot = x2 + (x1 - x2) * (y2 - this.ys) / (y2 - y1);
+      line(this.scale_x(xspot), this.scale_y(this.ys), this.scale_x(x1), this.scale_y(y1));
+      return;
+    }
+
     strokeWeight(2);
-    line(this.scale_x(x1), this.scale_y(y1), this.scale_x(x2), this.scale_y(y2));
+    line(this.scale_x(x1),
+    this.scale_y(y1),
+    this.scale_x(x2),
+    this.scale_y(y2));
   }
 
   lines = (x1, y1s, x2, y2s) => {
@@ -83,30 +113,71 @@ class Viewer {
   }
 
   show_axes = () => {
-    strokeWeight(3);
+    drawingContext.setLineDash([10, 5]);
+    strokeWeight(1);
     stroke(0, 0, 0);
     line(windowWidth * this.margin,
-    windowHeight * (1 - this.margin), windowWidth * this.margin, windowHeight * this.margin)
-    line(windowWidth * this.margin,
-    windowHeight * (1 - this.margin), windowWidth * (1 - this.margin), windowHeight * (1 - this.margin))
+    windowHeight * (1 - this.margin) + this.axis_tail_length,
+    windowWidth * this.margin,
+    windowHeight * this.margin);
 
-    strokeWeight(0);
+    line(windowWidth * this.margin - this.axis_tail_length,
+    windowHeight * (1 - this.margin),
+    windowWidth * (1 - this.margin),
+    windowHeight * (1 - this.margin));
 
+    line(windowWidth * this.margin - this.axis_tail_length,
+    windowHeight * this.margin,
+    windowWidth * (1 - this.margin),
+    windowHeight * this.margin);
+
+    line(windowWidth * (1 - this.margin),
+    windowHeight * this.margin,
+    windowWidth * (1 - this.margin),
+    windowHeight * (1 - this.margin) + this.axis_tail_length);
+    drawingContext.setLineDash([]);
   }
 
   show_scale = () => {
-    text('scale: time ranges from 0 to '
-    + str(this.xs),
-    + 'population count ranges from 0 to ' + str(this.ys),
-    windowWidth * this.margin,
-    windowHeight * (1 - this.margin));
+    textSize(20);
+    text('t = 0', this.margin * windowWidth - 17,
+    (1 - this.margin) * windowHeight + this.axis_tail_length + 20);
+    text('t = ' + str(this.xs), (1 - this.margin) * windowWidth - 17,
+    (1 - this.margin) * windowHeight + this.axis_tail_length + 20);
+    text('n = 0',
+    this.margin * windowWidth - this.axis_tail_length - 55,
+    (1 - this.margin) * windowHeight + 8);
+    text('n = ' + str(this.ys),
+    this.margin * windowWidth - this.axis_tail_length - 55,
+    (this.margin) * windowHeight + 20);
+  }
+
+  show_title = () => {
+    strokeWeight(0);
+    fill(0, 0, 0);
+    textSize(windowHeight * this.margin * 0.13);
+    textStyle(BOLD);
+    text('Birth-death Process Visualizer', 10, 10,
+    windowWidth - 20, windowHeight * this.margin / 7);
+    textStyle(NORMAL);
+    text('This applet simulates a continuous-time linear birth-death branching '
+    + 'process n(t) running between times '
+    + 't = 0 and t = 1. The birth rate is b, the death rate is d, and the '
+    + 'initial population size is n'
+    +  String.fromCharCode(8320)
+    + '. The red path is the result of one simulation, while the gray path '
+    + 'is the theoretical average '
+    + 'simulation of a birth-death process with the chosen parameters.',
+    10, 20 + windowHeight * this.margin / 7,
+    windowWidth - 200, windowHeight * this.margin);
+
   }
 
   create_parameter_chooser = (params) => {
 
     var buttons = [];
-    var startingX = 10;
-    var startingY = 10;
+    var startingX = windowWidth * (this.margin) + 10;
+    var startingY = windowHeight * (this.margin) + 10;
     var currentY = startingY;
     this.parameter_labels = [];
 
@@ -116,12 +187,13 @@ class Viewer {
       var lb = createButton(this.param_names[i] + ' = ' + str(params[i]));
       this.parameter_labels.push(lb);
       var up = createButton('+');
+
+
       down.mousePressed(
       this.get_function_when_parameter_button_pressed(this.controller, i, -1));
+
       up.mousePressed(
       this.get_function_when_parameter_button_pressed(this.controller, i, 1));
-
-
 
       down.position(currentX, currentY);
       down.size(40, 40);
@@ -137,7 +209,7 @@ class Viewer {
     }
 
 
-    this.create_start_button();
+    this.create_start_button(startingX, startingY);
   }
 
   get_function_when_parameter_button_pressed = (controller, i, change) => {
@@ -148,11 +220,11 @@ class Viewer {
 
   }
 
-  create_start_button = () => {
+  create_start_button = (startingX, startingY) => {
     this.start_button = createButton('start');
     this.start_button.mousePressed(this.controller.start_button_pressed);
-    this.start_button.position(190, 10);
-    this.start_button.size(120, 120);
+    this.start_button.position(startingX, startingY + 120);
+    this.start_button.size(180, 40);
   }
 
   update_parameter_label = (i, new_value) => {
@@ -161,11 +233,7 @@ class Viewer {
 
   restart = () => {
     clear();
-
-    background(220, 220, 250);
-    this.show_axes();
-    this.set_scale(1, max(1.2 * this.controller.model.start(),
-    1.5 * this.controller.model.get_average(1)));
+    this.setup_canvas();
   }
 
   exit = () => {
@@ -217,12 +285,15 @@ class OnePopModel {
   b = () => {
     return this.params[0];
   }
+
   d = () => {
     return this.params[1];
   }
+
   tr = () => {
     return this.b() + this.d();
   }
+
   start = () => {
     return this.params[2];
   }
@@ -242,11 +313,9 @@ class OnePopModel {
 class Controller {
   constructor() {
     this.viewer = new Viewer(this);
-    var m = new OnePopModel(starting_params);
-    this.set_model(m)
-    this.viewer.set_scale(1, max(1.2 * this.model.start(),
-    1.5 * this.model.get_average(1)));
-    this.status = 1;
+    this.status = 0;
+    noLoop();
+
   }
 
   set_model = (model) => {
@@ -260,7 +329,7 @@ class Controller {
 
   parameter_button_pressed = (param, change) => {
     var old_value = starting_params[param];
-    print(old_value);
+
     var adjusted_change;
     if (param == 2) {
       if (change > 0) {
@@ -268,13 +337,13 @@ class Controller {
       } else {
         adjusted_change = Math.min(-1, Math.floor(change * old_value / 10.0));
       }
-
+      var new_value = old_value + adjusted_change;
     } else {
-      var adjusted_change = change;
+      var new_value = Math.floor(old_value * 10 + change + 0.5) / 10.0;
     }
 
 
-    var new_value = old_value + adjusted_change;
+
     if (new_value < 0) {
       return;
     }
@@ -288,20 +357,21 @@ class Controller {
   }
 
   start_button_pressed = () => {
-    if (this.status == 1) {
-      noLoop();
-      this.viewer.start_button.html('restart');
-      this.status = 2;
-    } else if (this.status == 0) {
-      loop();
+    if (this.status == 0) {
       this.viewer.start_button.html('stop');
       this.status = 1;
-    } else if (this.status == 2) {
-      this.model = new OnePopModel(starting_params);
-      this.viewer.start_button.html('stop');
+      var m = new OnePopModel(starting_params);
+      this.set_model(m);
       this.viewer.restart();
-      this.status = 1;
+      this.viewer.set_scale(
+      1, Math.ceil(max(2 * this.model.start(), 1.2 * this.model.get_average(1))));
+      this.viewer.show_title();
+      this.viewer.show_scale();
       loop();
+    } else if (this.status == 1) {
+      this.viewer.start_button.html('restart');
+      this.status = 0;
+      noLoop();
     }
   }
 
@@ -311,27 +381,39 @@ class Controller {
 
 
 function setup() {
+  frameRate(60);
 
   c = new Controller();
-  c.viewer.create_parameter_chooser(c.model.params);
-  c.viewer.show_scale();
+  c.viewer.create_parameter_chooser(starting_params);
+  c.viewer.show_title();
+  c.start_button_pressed();
 
 
 
 }
 
 function draw() {
+  if (first_loop) {
+    first_loop = false;
+    return;
+  }
+
   stroke(120, 120, 120);
-  c.viewer.line(c.model.time, c.model.get_average(c.model.time),
-  c.model.last_time, c.model.get_average(c.model.last_time))
+
+  c.viewer.line(
+  c.model.time, c.model.get_average(c.model.time),
+  c.model.last_time, c.model.get_average(c.model.last_time));
+
   stroke(188, 56, 35);
-  c.viewer.line(c.model.time, c.model.count, c.model.last_time, c.model.last_count);
+
+  c.viewer.line(c.model.time, c.model.count,
+  c.model.last_time, c.model.last_count);
 
 
-  c.model.run(0.005);
-  if (c.model.time >= 1) {
+  c.model.run(0.01);
+  if (c.model.time > 1.01) {
     c.viewer.start_button.html('restart');
-    c.status = 2;
+    c.status = 0;
     noLoop();
   }
 
