@@ -22,7 +22,7 @@ class Viewer {
 
   setup_canvas = () => {
 
-
+    
     background(220, 220, 250);
     strokeWeight(0);
     fill(240, 230, 200);
@@ -325,11 +325,13 @@ class Controller {
     var adjusted_change;
     if (param == 2) {
       if (change > 0) {
-        adjusted_change = Math.max(1, Math.ceil(change * old_value / 5.0));
+        adjusted_change = Math.pow(10,
+        Math.floor(Math.log(old_value + 0.5) / Math.log(10.0)));
       } else {
-        adjusted_change = Math.min(-1, Math.floor(change * old_value / 5.0));
+        adjusted_change = - Math.pow(10,
+        Math.floor(Math.log(old_value - 1) / Math.log(10.0)));
       }
-      var new_value = Math.min(old_value + adjusted_change, 9999);
+      var new_value = Math.min(old_value + adjusted_change, 9000);
     } else {
       var new_value = Math.floor(old_value * 5 + change + 0.5) / 5;
     }
@@ -419,7 +421,7 @@ function draw() {
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  c.viewer.setup_canvas();
+  //resizeCanvas(windowWidth, windowHeight);
+  //c.viewer.setup_canvas();
 
 }
