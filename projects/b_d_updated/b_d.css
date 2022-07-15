@@ -20,13 +20,13 @@ button {
 
 
 .changer {
-  background-color: rgb(220, 220, 250);
+  background-color: rgb(240, 230, 200);
   border-radius: 2px;
   border: 1px solid;
 }
 
 .changer:hover {
-  background-color: rgba(200, 200, 220, 1);
+  background-color: rgba(220, 210, 180, 1);
 }
 
 .start {
