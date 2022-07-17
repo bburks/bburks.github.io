@@ -22,7 +22,7 @@ class Viewer {
 
   setup_canvas = () => {
 
-    
+
     background(220, 220, 250);
     strokeWeight(0);
     fill(240, 230, 200);

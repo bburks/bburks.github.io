@@ -57,7 +57,13 @@ button {
 }
 
 .doodles {
+
   /*background-color: rgb(211, 200, 211);*/
+}
+
+.doodle-main {
+  margin-left: 0%;
+  margin-right: 0%;
 }
 
 .doodle-title {
