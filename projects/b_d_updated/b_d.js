@@ -79,9 +79,11 @@ class Viewer {
   fill(0, 0, 0);
   text('We simulate the size of a continuous-time linear two-type birth-death branching '
   + 'process n(t) between times '
-  + 't = 0 and t = 1. The birth rates are b, the death rates are d, and the '
-  + '(initial) population sizes are n. The transition rate from i to j is '
-  + 'lambda_ij. '
+  + 't = 0 and t = 1. For type i, the birth rate is b\u1D62, the death rate is '
+  + 'd\u1D62, and the '
+  + 'initial population size is n\u1D62. '
+  + 'The transition rate from type i to type j is '
+  + '\u03BB\u1D62\u2C7C.'
   + 'The dark, jagged path is population sizes in the result of one simulation, and the '
   + 'grey paths are '
   + 'the theoretical average simulation with the chosen parameters.',
